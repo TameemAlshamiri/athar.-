@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>athar admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cormorant+Garamond:ital,wght@1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b0c; --surface:#141415; --ink:#f3ead6; --muted:#a89c80; --line:#2d2719; --accent:#c9a24a; --accent-ink:#0b0b0c; --tile:#1d1a14; --bad:#e0705f; --good:#6fc08a;
+  --body:"DM Sans","Segoe UI",Arial,sans-serif;
+  --gold:linear-gradient(100deg,#8f6b24 0%,#e9cf86 30%,#c9a24a 52%,#f4e1a4 74%,#9a7428 100%);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.gold{background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.logo{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
+.logo .ar{font-family:"Aref Ruqaa",serif;font-weight:700;font-size:2.2rem;line-height:1.05}
+.logo .en{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:700;font-size:1.35rem;letter-spacing:.3em;margin-right:-.3em;margin-top:-4px}
+header{border-bottom:1px solid var(--line);background:var(--surface)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:10px;flex-wrap:wrap}
+header .title{color:var(--muted);font-size:.95rem}
+.btn{border:1.5px solid var(--accent);background:none;color:var(--accent);padding:9px 16px;border-radius:999px;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--accent);color:var(--accent-ink)}
+.btn.solid{background:var(--accent);color:var(--accent-ink)}
+.btn.solid:hover{filter:brightness(1.08)}
+.btn.small{padding:6px 12px;font-size:.88rem}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.danger:hover{background:var(--bad);color:var(--accent-ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.login{max-width:380px;margin:12vh auto 0;display:flex;flex-direction:column;gap:12px}
+.login h1{margin:0;font-size:1.3rem}
+label{display:flex;flex-direction:column;gap:5px;font-size:.9rem;color:var(--muted)}
+input[type=text],input[type=password],input[type=number],input[type=tel],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--ink);width:100%;min-width:0}
+textarea{resize:vertical;min-height:70px}
+.msg{min-height:1.3em;font-size:.92rem}
+.msg.bad{color:var(--bad)} .msg.good{color:var(--good)}
+.hidden{display:none!important}
+.settings{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin:20px 0}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.toolbar .grow{flex:1}
+.seg{display:flex;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--surface);padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.list{display:flex;flex-direction:column;gap:10px;padding-bottom:110px}
+.row{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+.thumb{width:64px;height:64px;border-radius:8px;background:var(--tile);object-fit:cover;display:grid;place-items:center;color:var(--muted);font-size:.7rem;text-align:center}
+.row h3{margin:0;font-size:1rem;overflow-wrap:anywhere}
+.row .meta{color:var(--muted);font-size:.85rem}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);margin-left:6px;vertical-align:middle}
+.pill.out{background:#4a4435;color:var(--ink)}
+.actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.empty{color:var(--muted);padding:30px 0;text-align:center}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 0;z-index:5}
+.bar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+dialog{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:0;width:min(560px,calc(100% - 24px));max-height:calc(100% - 24px)}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+dialog form{padding:20px;display:flex;flex-direction:column;gap:12px}
+dialog h2{margin:0;font-size:1.15rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.photo{display:flex;gap:14px;align-items:center}
+.photo .preview{width:96px;height:96px;border-radius:10px;background:var(--tile);object-fit:cover;flex:none;display:grid;place-items:center;color:var(--muted);font-size:.75rem;text-align:center}
+.check{flex-direction:row;align-items:center;gap:8px;color:var(--ink)}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+.foot{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px}
+@media (max-width:560px){.settings,.two{grid-template-columns:1fr}.row{grid-template-columns:56px 1fr}.thumb{width:56px;height:56px}.actions{grid-column:1/-1;justify-content:flex-start}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="logo"><span class="ar gold" lang="ar">أثر</span><span class="en gold">ATHAR</span></span>
+    <span class="title">Admin panel</span>
+    <span id="topActions" class="hidden"><a class="btn small" href="/" style="text-decoration:none;display:inline-block">View shop</a> <button class="btn small" id="logout" type="button">Log out</button></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Login -->
+  <form id="loginForm" class="card login" autocomplete="off">
+    <h1>Log in</h1>
+    <label for="pw">Admin password
+      <input id="pw" type="password" autocomplete="current-password" required>
+    </label>
+    <button class="btn solid" type="submit" id="loginBtn">Log in</button>
+    <div class="msg" id="loginMsg" role="alert"></div>
+  </form>
+
+  <!-- Panel -->
+  <section id="panel" class="hidden">
+    <div class="settings">
+      <label for="wa">WhatsApp number (country code first, digits only)
+        <input id="wa" type="tel" inputmode="numeric" placeholder="201001234567">
+      </label>
+      <label for="cur">Currency
+        <input id="cur" type="text" maxlength="8" placeholder="EGP">
+      </label>
+    </div>
+
+    <div class="toolbar">
+      <div class="seg" id="seg" role="group" aria-label="Section">
+        <button type="button" data-sec="accessories" aria-pressed="true">Accessories</button>
+        <button type="button" data-sec="perfumes" aria-pressed="false">Perfumes</button>
+      </div>
+      <span class="grow"></span>
+      <button class="btn solid" id="addBtn" type="button">+ Add item</button>
+    </div>
+
+    <div class="list" id="list" aria-live="polite"></div>
+  </section>
+</main>
+
+<div class="bar hidden" id="saveBar">
+  <div class="wrap">
+    <span class="msg" id="saveMsg" role="status">No changes yet.</span>
+    <button class="btn solid" id="saveBtn" type="button" disabled>Publish changes</button>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <form id="itemForm" method="dialog">
+    <h2 id="dlgTitle">Add item</h2>
+    <div class="two">
+      <label for="f-section">Section
+        <select id="f-section"><option value="accessories">Accessories</option><option value="perfumes">Perfumes</option></select>
+      </label>
+      <label for="f-cat">Category <select id="f-cat"></select></label>
+    </div>
+    <label for="f-name">Name <input id="f-name" type="text" maxlength="120" required></label>
+    <div class="two">
+      <label for="f-price">Price <input id="f-price" type="number" min="0" step="any" required></label>
+      <label for="f-old">Old price (optional, shows crossed out) <input id="f-old" type="number" min="0" step="any"></label>
+    </div>
+    <label for="f-desc">Description <textarea id="f-desc" maxlength="400"></textarea></label>
+    <div class="two">
+      <label for="f-tag">Label
+        <select id="f-tag"><option value="">None</option><option value="New">New</option><option value="Sale">Sale</option></select>
+      </label>
+      <label class="check" for="f-sold"><input id="f-sold" type="checkbox"> Sold out</label>
+    </div>
+    <div class="photo">
+      <div class="preview" id="preview">No photo</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label for="f-file" class="btn small" style="cursor:pointer;display:inline-block;text-align:center">Choose photo</label>
+        <input id="f-file" type="file" accept="image/*" class="hidden">
+        <button type="button" class="btn small danger" id="rmPhoto">Remove photo</button>
+        <span class="msg" id="photoMsg"></span>
+      </div>
+    </div>
+    <div class="msg bad" id="formMsg" role="alert"></div>
+    <div class="foot">
+      <button class="btn" type="button" id="cancel">Cancel</button>
+      <button class="btn solid" type="submit" id="okBtn">Save item</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+const CATS = {
+  accessories: {bracelet:"Bracelet", ring:"Ring", earring:"Earring"},
+  perfumes: {oriental:"Oriental", floral:"Floral", woody:"Woody", fresh:"Fresh"}
+};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let pw = "", data = {whatsapp:"", currency:"EGP", items:[]}, dirty = false, section = "accessories", editing = null, draftImg = "";
+
+function store(k,v){ try{ v==null?sessionStorage.removeItem(k):sessionStorage.setItem(k,v); }catch(e){} }
+function load(k){ try{ return sessionStorage.getItem(k)||""; }catch(e){ return ""; } }
+
+async function api(path, body){
+  const r = await fetch(path,{method:"POST",headers:{"Content-Type":"application/json","x-admin-password":pw},body:JSON.stringify(body)});
+  let j = {}; try{ j = await r.json(); }catch(e){}
+  if(!r.ok) throw new Error(j.error || "Something went wrong ("+r.status+").");
+  return j;
+}
+
+function setDirty(v){
+  dirty = v;
+  $("saveBtn").disabled = !v;
+  const m = $("saveMsg"); m.className = "msg";
+  m.textContent = v ? "You have changes that are not published yet." : "All changes are published.";
+}
+
+async function enter(password){
+  pw = password;
+  await api("/api/save",{check:true});          // throws if the password is wrong
+  const r = await fetch("/api/items",{cache:"no-store"});
+  data = await r.json();
+  store("pw", pw);
+  $("loginForm").classList.add("hidden");
+  $("panel").classList.remove("hidden");
+  $("saveBar").classList.remove("hidden");
+  $("topActions").classList.remove("hidden");
+  $("wa").value = data.whatsapp || ""; $("cur").value = data.currency || "EGP";
+  setDirty(false); $("saveMsg").textContent = "No changes yet.";
+  render();
+}
+
+$("loginForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  $("loginMsg").className="msg"; $("loginMsg").textContent="Checking…"; $("loginBtn").disabled=true;
+  try{ await enter($("pw").value); }
+  catch(err){ $("loginMsg").className="msg bad"; $("loginMsg").textContent=err.message; }
+  $("loginBtn").disabled=false;
+});
+$("logout").addEventListener("click",()=>{ store("pw",null); location.reload(); });
+window.addEventListener("beforeunload",e=>{ if(dirty){ e.preventDefault(); e.returnValue=""; } });
+
+$("wa").addEventListener("input",()=>{ data.whatsapp=$("wa").value.replace(/\D/g,""); setDirty(true); });
+$("cur").addEventListener("input",()=>{ data.currency=$("cur").value.trim()||"EGP"; setDirty(true); });
+
+$("seg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  section=b.dataset.sec;
+  $("seg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  render();
+});
+
+function render(){
+  const items = data.items.filter(i=>i.section===section);
+  $("list").innerHTML = items.length ? items.map(i=>`
+    <div class="row" data-id="${esc(i.id)}">
+      ${i.img?`<img class="thumb" src="${esc(i.img)}" alt="">`:`<div class="thumb">No photo</div>`}
+      <div>
+        <h3>${esc(i.name)}${i.tag?`<span class="pill">${esc(i.tag)}</span>`:""}${i.soldOut?`<span class="pill out">Sold out</span>`:""}</h3>
+        <div class="meta">${esc(CATS[i.section][i.cat]||i.cat)} · ${esc(i.price)} ${esc(data.currency||"EGP")}${i.old?` (was ${esc(i.old)})`:""}</div>
+      </div>
+      <div class="actions">
+        <button class="btn small" data-act="sold" type="button">${i.soldOut?"Mark in stock":"Mark sold out"}</button>
+        <button class="btn small" data-act="edit" type="button">Edit</button>
+        <button class="btn small danger" data-act="del" type="button">Delete</button>
+      </div>
+    </div>`).join("") : `<p class="empty">No items in ${section==="perfumes"?"Perfumes":"Accessories"} yet. Press “Add item”.</p>`;
+}
+
+$("list").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(!b) return;
+  const id=b.closest(".row").dataset.id, item=data.items.find(i=>i.id===id); if(!item) return;
+  if(b.dataset.act==="edit") return openForm(item);
+  if(b.dataset.act==="sold"){ item.soldOut=!item.soldOut; setDirty(true); return render(); }
+  if(b.dataset.act==="del" && confirm("Delete “"+item.name+"”? This takes effect when you publish.")){
+    data.items=data.items.filter(i=>i!==item); setDirty(true); render();
+  }
+});
+
+/* ---- item form ---- */
+function fillCats(sec,sel){
+  $("f-cat").innerHTML=Object.entries(CATS[sec]).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");
+  if(sel && CATS[sec][sel]) $("f-cat").value=sel;
+}
+$("f-section").addEventListener("change",()=>fillCats($("f-section").value));
+
+function showPreview(){
+  const p=$("preview");
+  p.innerHTML=draftImg?`<img src="${esc(draftImg)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`:"No photo";
+}
+
+function openForm(item){
+  editing=item||null; draftImg=item?item.img:"";
+  $("dlgTitle").textContent=item?"Edit item":"Add item";
+  $("f-section").value=item?item.section:section;
+  fillCats($("f-section").value,item&&item.cat);
+  $("f-name").value=item?item.name:""; $("f-price").value=item?item.price:"";
+  $("f-old").value=item&&item.old?item.old:""; $("f-desc").value=item?item.desc:"";
+  $("f-tag").value=item?item.tag:""; $("f-sold").checked=!!(item&&item.soldOut);
+  $("formMsg").textContent=""; $("photoMsg").textContent=""; $("f-file").value="";
+  showPreview(); $("dlg").showModal();
+}
+$("addBtn").addEventListener("click",()=>openForm(null));
+$("cancel").addEventListener("click",()=>$("dlg").close());
+$("rmPhoto").addEventListener("click",()=>{ draftImg=""; showPreview(); $("photoMsg").textContent=""; });
+
+async function toJpeg(file){
+  const bmp=await createImageBitmap(file);
+  const sc=Math.min(1,900/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas"); c.width=Math.round(bmp.width*sc); c.height=Math.round(bmp.height*sc);
+  const x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height); x.drawImage(bmp,0,0,c.width,c.height);
+  return c.toDataURL("image/jpeg",0.82);
+}
+$("f-file").addEventListener("change",async()=>{
+  const f=$("f-file").files[0]; if(!f) return;
+  const m=$("photoMsg"); m.className="msg"; m.textContent="Uploading…"; $("okBtn").disabled=true;
+  try{
+    const dataUrl=await toJpeg(f);
+    const j=await api("/api/upload",{image:dataUrl});
+    draftImg=j.url; showPreview(); m.className="msg good"; m.textContent="Photo added.";
+  }catch(err){ m.className="msg bad"; m.textContent=err.message.includes("decode")||err.name==="InvalidStateError"?"This photo format is not supported. Use JPG or PNG.":err.message; }
+  $("okBtn").disabled=false;
+});
+
+$("itemForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("f-name").value.trim(), price=Number($("f-price").value);
+  if(!name){ $("formMsg").textContent="Enter a name."; return; }
+  if(!Number.isFinite(price)||price<0){ $("formMsg").textContent="Enter a valid price."; return; }
+  const item=editing||{id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2)),color:"#c9a24a"};
+  Object.assign(item,{
+    section:$("f-section").value, cat:$("f-cat").value, name, price,
+    old:Number($("f-old").value)||0, desc:$("f-desc").value.trim(), tag:$("f-tag").value,
+    soldOut:$("f-sold").checked, img:draftImg
+  });
+  if(!editing) data.items.unshift(item);
+  section=item.section;
+  $("seg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.sec===section));
+  $("dlg").close(); setDirty(true); render();
+});
+
+$("saveBtn").addEventListener("click",async()=>{
+  const m=$("saveMsg"); m.className="msg"; m.textContent="Publishing…"; $("saveBtn").disabled=true;
+  try{
+    const j=await api("/api/save",data);
+    data=j.data; render(); setDirty(false); m.className="msg good"; m.textContent="Published. Your shop is updated.";
+  }catch(err){ m.className="msg bad"; m.textContent=err.message; $("saveBtn").disabled=false; }
+});
+
+/* Stay logged in during this browser session. */
+const saved=load("pw");
+if(saved){ enter(saved).catch(()=>{ store("pw",null); }); }
+</script>
+</body>
+</html>

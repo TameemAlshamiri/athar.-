@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>athar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600;1,700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: slim header, short intro, sticky filter bar, responsive product grid with a buy-by-WhatsApp action. */
+:root{
+  --bg:#0b0b0c; --surface:#141415; --ink:#f3ead6; --muted:#a89c80; --line:#2d2719; --accent:#c9a24a; --accent-ink:#0b0b0c; --tile:#1d1a14;
+  --hand-ar:"Aref Ruqaa","Noto Naskh Arabic",serif; --hand-en:"Cormorant Garamond","Palatino Linotype",Georgia,serif;
+  --display:"Bricolage Grotesque","Trebuchet MS",sans-serif; --body:"DM Sans","Segoe UI",Arial,sans-serif;
+  --gold:linear-gradient(100deg,#8f6b24 0%,#e9cf86 30%,#c9a24a 52%,#f4e1a4 74%,#9a7428 100%);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--line);background:var(--surface)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.01em}
+.gold{background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.logo{display:inline-flex;flex-direction:column;align-items:center;text-decoration:none;line-height:1}
+.logo .ar{font-family:var(--hand-ar);font-weight:700;font-size:2.4rem;line-height:1.05}
+.logo .en{font-family:var(--hand-en);font-style:italic;font-weight:700;font-size:1.5rem;letter-spacing:.3em;margin-right:-.3em;margin-top:-4px}
+.logo .swash{width:210px;height:22px}
+.swash path{fill:none;stroke:url(#goldStroke);stroke-linecap:round}
+.mark{text-align:center;display:flex;flex-direction:column;align-items:center}
+.mark .ar{font-family:var(--hand-ar);font-weight:700;font-size:clamp(3rem,10vw,4.6rem);line-height:1.05}
+.mark .en{font-family:var(--hand-en);font-style:italic;font-weight:700;font-size:clamp(1.9rem,6vw,3rem);letter-spacing:.3em;margin-right:-.3em;line-height:1;margin-top:-6px}
+.mark .swash{width:min(88%,560px);height:44px}
+.mark .sub{display:flex;align-items:center;gap:16px;font-family:var(--hand-en);font-weight:500;letter-spacing:.55em;margin-right:-.55em;font-size:1.05rem;color:var(--accent);margin-top:6px}
+.mark .sub i{display:block;width:clamp(36px,10vw,110px);height:1px;background:var(--accent);opacity:.8}
+.mark .star{width:22px;height:22px;margin-top:12px}
+.mark .star path{fill:none;stroke:var(--accent);stroke-width:1.4}
+.tabs{background:var(--surface);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:6px}
+.tab{font:inherit;font-weight:700;font-size:1rem;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:12px 16px;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.phero{background:radial-gradient(ellipse at 50% 0%,#1a1508 0%,#0b0b0c 65%);border-bottom:1px solid var(--line)}
+.phero .wrap{display:flex;flex-direction:column;align-items:center;padding-top:22px;padding-bottom:24px;gap:12px;text-align:center}
+.phero p{margin:0;color:var(--muted);max-width:56ch;font-size:.98rem}
+.phero[hidden],.intro[hidden]{display:none}
+.contact{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.95rem;background:var(--accent);color:var(--accent-ink);padding:9px 16px;border-radius:999px}
+.intro{padding:36px 20px 20px}
+.intro h1{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.08;margin:0 0 10px;max-width:16ch;text-wrap:balance;letter-spacing:-.02em}
+.intro p{margin:0;color:var(--muted);max-width:60ch}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;gap:12px;align-items:center;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 360px}
+.chip{font:inherit;font-size:.9rem;font-weight:500;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tools{display:flex;gap:8px;flex:1 1 280px;justify-content:flex-end}
+.tools input,.tools select{font:inherit;font-size:.92rem;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-width:0}
+.tools input{flex:1 1 140px;max-width:240px}
+.count{padding:16px 0 4px;color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding:10px 0 56px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.pic{background:var(--tile);aspect-ratio:4/3;display:grid;place-items:center;position:relative}
+.pic svg{width:62%;height:auto;max-height:86%}
+.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tag{z-index:1;position:absolute;top:10px;left:10px;font-size:.75rem;font-weight:700;background:var(--accent);color:var(--accent-ink);padding:3px 9px;border-radius:999px}
+.tag.out{background:#4a4435;color:var(--ink)}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cat{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.info h3{margin:0;font-family:var(--display);font-size:1.08rem;font-weight:600;line-height:1.25}
+.info p{margin:0;color:var(--muted);font-size:.9rem}
+.row{margin-top:auto;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.price{font-weight:700;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.price s{font-weight:400;color:var(--muted);font-size:.85rem;margin-left:6px}
+.buy{font-size:.88rem;font-weight:700;text-decoration:none;border:1.5px solid var(--accent);color:var(--accent);padding:7px 13px;border-radius:999px}
+.buy:hover{background:var(--accent);color:var(--accent-ink)}
+.buy[aria-disabled="true"]{border-color:var(--line);color:var(--muted);pointer-events:none}
+.empty{grid-column:1/-1;padding:40px 0;color:var(--muted)}
+footer{border-top:1px solid var(--line);background:var(--surface);padding:22px 0;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:520px){.logo .ar{font-size:2.1rem}.logo .en{font-size:1.3rem}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.info{padding:12px}.pic svg{width:70%}.tools{justify-content:stretch}.tools input{max-width:none}}
+@media (max-width:360px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#accessories" aria-label="athar, أثر"><span class="ar gold" lang="ar">أثر</span><span class="en gold">ATHAR</span></a>
+    <a class="contact" id="contactTop" href="#" rel="noopener">Chat on WhatsApp</a>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tab-accessories" data-sec="accessories" aria-selected="true" type="button">Accessories</button>
+  <button class="tab" role="tab" id="tab-perfumes" data-sec="perfumes" aria-selected="false" type="button">Perfumes</button>
+</div></nav>
+
+<main>
+  <section class="intro wrap" id="intro">
+    <h1>Accessories for every day</h1>
+    <p>Pick what you like and message us to order. Delivery across Egypt.</p>
+  </section>
+  <section class="phero" id="phero" hidden>
+    <div class="wrap">
+      <div class="mark" role="img" aria-label="athar perfumes, أثر">
+        <span class="ar gold" lang="ar">أثر</span>
+        <span class="en gold">ATHAR</span>
+      </div>
+      <p>Oriental, floral, woody and fresh scents. Message us to order or to ask for a sample.</p>
+    </div>
+  </section>
+
+  <div class="bar">
+    <div class="wrap">
+      <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+      <div class="tools">
+        <input id="q" type="search" placeholder="Search items" aria-label="Search items">
+        <select id="sort" aria-label="Sort items">
+          <option value="featured">Featured</option>
+          <option value="low">Price: low to high</option>
+          <option value="high">Price: high to low</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="count" id="count" aria-live="polite"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="foot">athar</span>
+    <span>Pay on delivery or by transfer. Ask us about exchanges.</span>
+  </div>
+</footer>
+
+<script>
+/* Items, WhatsApp number and currency now come from /api/items. Manage them at /admin. */
+let WHATSAPP = "";
+let CURRENCY = "EGP";
+const STORE_NAME = "athar | أثر";
+const PRODUCTS = [];   // accessories (filled from the API)
+const PERFUMES = [];   // perfumes (filled from the API)
+let loaded = false;
+
+const LABELS = {bracelet:"Bracelets", ring:"Rings", earring:"Earrings"};
+const PERFUME_LABELS = {oriental:"Oriental", floral:"Floral", woody:"Woody", fresh:"Fresh"};
+
+function shade(hex, amt){
+  const n=parseInt(hex.slice(1),16);
+  const c=v=>Math.max(0,Math.min(255,v+amt));
+  return "#"+[(n>>16)&255,(n>>8)&255,n&255].map(c).map(v=>v.toString(16).padStart(2,"0")).join("");
+}
+
+/* Simple front-view drawings: bracelet, ring, earrings. */
+function icon(cat, c){
+  const d=shade(c,-45), l=shade(c,60);
+  let body="";
+  if(cat==="ring"){
+    body=`<ellipse cx="60" cy="74" rx="30" ry="28" fill="none" stroke="${c}" stroke-width="9"/><ellipse cx="60" cy="74" rx="30" ry="28" fill="none" stroke="${l}" stroke-width="2" stroke-dasharray="46 300" stroke-dashoffset="-20"/><path d="M60 22l14 14-14 16-14-16z" fill="${l}" stroke="${d}" stroke-width="2.5" stroke-linejoin="round"/><path d="M46 36h28M60 22l-6 14 6 16 6-16z" stroke="${d}" stroke-width="1.5" fill="none" opacity=".6"/>`;
+  }else if(cat==="earring"){
+    const one=x=>`<path d="M${x} 16v14" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/><circle cx="${x}" cy="34" r="5" fill="${c}"/><path d="M${x} 40c-13 0-14 36 0 36s13-36 0-36z" fill="${c}" opacity=".95"/><path d="M${x-5} 52c-2 8 0 14 3 18" stroke="${l}" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="${x}" cy="88" r="9" fill="none" stroke="${c}" stroke-width="3.5"/>`;
+    body=one(36)+one(84);
+  }else{
+    body=`<ellipse cx="60" cy="62" rx="44" ry="34" fill="none" stroke="${c}" stroke-width="12"/><ellipse cx="60" cy="59" rx="44" ry="34" fill="none" stroke="${l}" stroke-width="2" stroke-dasharray="70 400" stroke-dashoffset="-40"/><circle cx="60" cy="96" r="6" fill="${d}"/>`;
+  }
+  return `<svg viewBox="0 0 120 120" aria-hidden="true">${body}</svg>`;
+}
+
+function bottle(cat, c){
+  const d=shade(c,-50), l=shade(c,70);
+  const shape={
+    oriental:`<rect x="30" y="46" width="60" height="62" rx="10" fill="${c}"/><path d="M38 56v40" stroke="${l}" stroke-width="3" stroke-linecap="round" opacity=".7"/>`,
+    floral:`<path d="M60 44c24 0 34 20 34 38s-12 26-34 26-34-8-34-26 10-38 34-38z" fill="${c}"/><path d="M42 62c-4 8-4 16 0 24" stroke="${l}" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>`,
+    woody:`<rect x="34" y="44" width="52" height="64" rx="4" fill="${c}"/><path d="M42 52v48" stroke="${l}" stroke-width="3" stroke-linecap="round" opacity=".6"/>`,
+    fresh:`<path d="M40 46h40l8 62H32z" fill="${c}"/><path d="M46 56l-4 40" stroke="${l}" stroke-width="3" stroke-linecap="round" opacity=".7"/>`
+  }[cat];
+  return `<svg viewBox="0 0 120 120" aria-hidden="true"><rect x="50" y="22" width="20" height="14" rx="3" fill="#c9a227"/><rect x="54" y="34" width="12" height="12" fill="${d}"/>${shape}<rect x="46" y="76" width="28" height="16" rx="2" fill="#f6f1e4" opacity=".85"/></svg>`;
+}
+
+const SECTIONS={
+  accessories:{items:PRODUCTS,labels:LABELS,icon:icon},
+  perfumes:{items:PERFUMES,labels:PERFUME_LABELS,icon:bottle}
+};
+let section="accessories";
+
+const el=id=>document.getElementById(id);
+let active="all";
+
+document.title=STORE_NAME;
+el("foot").textContent="© "+new Date().getFullYear()+" "+STORE_NAME;
+el("contactTop").href="https://wa.me/"+WHATSAPP;
+
+function buildChips(){
+  const S=SECTIONS[section];
+  const cats=["all",...Object.keys(S.labels).filter(k=>S.items.some(p=>p.cat===k))];
+  el("chips").innerHTML=cats.map(k=>`<button class="chip" type="button" data-cat="${k}" aria-pressed="${k===active}">${k==="all"?"All":S.labels[k]}</button>`).join("");
+}
+el("chips").addEventListener("click",e=>{
+  const b=e.target.closest(".chip"); if(!b) return;
+  active=b.dataset.cat;
+  el("chips").querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  render();
+});
+function setSection(name,fromHash){
+  if(!SECTIONS[name]) name="accessories";
+  section=name; active="all"; el("q").value="";
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.sec===name));
+  el("intro").hidden=name!=="accessories";
+  el("phero").hidden=name!=="perfumes";
+  buildChips(); render();
+  if(!fromHash){ try{ location.hash=name; }catch(e){} }
+}
+document.querySelector(".tabs").addEventListener("click",e=>{
+  const t=e.target.closest(".tab"); if(t) setSection(t.dataset.sec);
+});
+window.addEventListener("hashchange",()=>setSection(location.hash.slice(1),true));
+el("q").addEventListener("input",render);
+el("sort").addEventListener("change",render);
+
+const money=n=>n.toLocaleString("en-US")+" "+CURRENCY;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  const S=SECTIONS[section];
+  const q=el("q").value.trim().toLowerCase();
+  let list=S.items.filter(p=>(active==="all"||p.cat===active)&&(!q||(p.name+" "+p.desc+" "+S.labels[p.cat]).toLowerCase().includes(q)));
+  const s=el("sort").value;
+  if(s==="low") list=[...list].sort((a,b)=>a.price-b.price);
+  if(s==="high") list=[...list].sort((a,b)=>b.price-a.price);
+  el("count").textContent=loaded&&S.items.length?list.length+(list.length===1?" item":" items"):"";
+  el("grid").innerHTML=list.length?list.map(p=>{
+    const msg=encodeURIComponent("Hi, I'd like to order: "+p.name+" ("+money(p.price)+")");
+    const tag=p.soldOut?`<span class="tag out">Sold out</span>`:(p.tag?`<span class="tag">${esc(p.tag)}</span>`:"");
+    const buy=p.soldOut?`<a class="buy" aria-disabled="true" href="#" tabindex="-1">Unavailable</a>`:`<a class="buy" href="https://wa.me/${WHATSAPP}?text=${msg}" rel="noopener">Order</a>`;
+    return `<article class="card"><div class="pic">${tag}${p.img?`<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">`:S.icon(p.cat,p.color)}</div><div class="info"><span class="cat">${S.labels[p.cat]}</span><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p><div class="row"><span class="price">${money(p.price)}${p.old?`<s>${money(p.old)}</s>`:""}</span>${buy}</div></div></article>`;
+  }).join(""):`<p class="empty">${!loaded?"Loading…":S.items.length?"Nothing matches that search. Try another word or choose All.":"New items are coming soon."}</p>`;
+}
+setSection(location.hash.slice(1),true);
+fetch("/api/items",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+  WHATSAPP=d.whatsapp||""; CURRENCY=d.currency||"EGP";
+  PRODUCTS.length=0; PERFUMES.length=0;
+  (d.items||[]).forEach(i=>(i.section==="perfumes"?PERFUMES:PRODUCTS).push(i));
+  el("contactTop").href="https://wa.me/"+WHATSAPP;
+}).catch(()=>{}).finally(()=>{loaded=true;buildChips();render();});
+</script>
+</body>
+</html>
